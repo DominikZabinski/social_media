@@ -1,3 +1,5 @@
+# Analiza tego jaka czesc gospodarstw domowych zlozyla deklaracje do Centralnej Ewidencji Emisyjnosci Budynkow (CEEB). Analiza ma nacelu przedstawienie roznic w zalezności od różnego poziomu agregacji danych.
+# Analysis of what part of households submitted declarations to the Central Register of Emissions of Buildings (CEEB). The analysis is aimed at presenting differences depending on different levels of data aggregation.
 # biblioteki / libraries ----
 library(data.table) # przetwarzanie tabel                         / handling tables
 library(rvest)      # przetwarzanie tresci ze stron internetowych / handling content from web
@@ -12,7 +14,7 @@ trans_it <- function(x, a, b, c, d)
     (x - a) / (b - a) * (d - c) + c
 }
 # pobranie i przygotowanie danych / downloading and preparing data ----
-# pobranie tresci strony i odfiltrowanie tabel / download webpage nad filter out tables
+# pobranie tresci strony i odfiltrowanie tabel / download webpage content and filter out tables
 url <- "https://zoneapp.gunb.gov.pl/ranking/"
 
 df <- url %>% 
@@ -34,8 +36,10 @@ allDataVoid <- rbindlist(
     )
 )
 
+# obliczenie odsetka punktow adresowych ze zlozona deklaracja / calculating share of households with at least one declaration
 allDataVoid[, ods := `Liczba punktów adresowych z co najmniej 1 złożoną deklaracją` / `Liczba punktów adresowych`]
 
+# obliczenia majace na celu odpowiednie spozycjonowanie punktow / calculating proper positions of points
 all2 <- copy(allDataVoid[,.(Gmina, mian = `Liczba punktów adresowych`, ods = `Liczba punktów adresowych z co najmniej 1 złożoną deklaracją` / `Liczba punktów adresowych`, ow)])
 
 kolejnoscOw <- all2[,.(odsOw = weighted.mean(x = ods, w = mian)), by = .(ow)]
@@ -53,6 +57,7 @@ podsumOw <- all2[,.(
     mn = min(id2), mx = max(id2),
     mm = median(ods), sr = weighted.mean(x = ods, w = mian)), by = .(ow)]
 
+# slownik wojewodztw / voivodeship dictionairy
 sl <- list(
     'dolnośląskie', "kujawsko-pomorskie", "lubelskie", "lubuskie", "łódzkie", "małopolskie", "mazowieckie", "opolskie",
     "podkarpackie", "podlaskie", "pomorskie", "śląskie", "świętokrzyskie", "warmińsko-mazurskie", "wielkopolskie", "zachodniopomorskie"
@@ -63,9 +68,12 @@ podsumOw$n <- sl2[match(podsumOw$ow, table = sl2$s)]$n
 podsumOw[, ow2 := factor(x = ow, levels = kolejnoscOw[order(odsOw)]$ow)]
 podsumOw <- podsumOw[order(ow2)]
 
+# kolory / colors
 kolorAAA <- "#64b441"
 kolorSrednia <- lighten(kolorAAA, amount = .5)
 kolorMediana <- darken(kolorAAA, amount = .5)
+
+# przygotowanie dodatkowych tekstow / additional texts
 fff <- 3
 
 podsumOw$ll <- unlist(
