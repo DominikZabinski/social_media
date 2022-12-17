@@ -7,3 +7,6 @@ This repository is dedicated to analysis and graphics shared on social media. Th
 
 ## Średnia cena krowiego mleka / Average purchase prices of cow milk 
 <img src="cow_milk_prices/ceny_mleko_krowie.png"></img>
+
+## Garbage (codes) in - garbage (actions) out
+<img src="garbage_codes/2010-2019_garbage_combo.png"></img>
