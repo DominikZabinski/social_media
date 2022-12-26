@@ -10,3 +10,6 @@ This repository is dedicated to analysis and graphics shared on social media. Th
 
 ## Garbage (codes) in - garbage (actions) out
 <img src="garbage_codes/2010-2019_garbage_combo.png"></img>
+
+## Rate of COVD-19 positive tests
+<img src="same_arc/Poland.png"></img>
