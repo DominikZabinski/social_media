@@ -2,6 +2,9 @@
 
 This repository is dedicated to analysis and graphics shared on social media. The most frequently discussed topics are healthcare and human capital.
 
+## Profilaktyka nowotworowa / Cancer screeninig rates
+<img src="cancer_screening/final.png"></img>
+
 ## Pełno oczekiwań wobec niepełnej bazy? / Full of expectations for a not quite full database?
 <img src="ceeb/ceeb.png"></img>
 
